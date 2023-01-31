@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile
+spec:
+  selector:
+    matchLabels:
+      app: userprofile
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      containers:
+      - name: userprofile
+        image: registryvww2566.azurecr.io/tripinsights/userprofile:1.0
+        ports:
+        - containerPort: 80
+        env:
+          - name: SQL_SERVER
+            value: sqlservervww2566.database.windows.net
+          - name: SQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: sql-secret
+                key: sql-user
+          - name: SQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sql-secret
+                key: sql-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app: userprofile
+  ports:
+  - port: 80
+    targetPort: 80

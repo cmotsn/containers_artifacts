@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips
+spec:
+  selector:
+    matchLabels:
+      app: trips
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      containers:
+      - name: trips
+        image: registryvww2566.azurecr.io/tripinsights/trips:1.0
+        ports:
+        - containerPort: 80
+        env:
+          - name: SQL_SERVER
+            value: sqlservervww2566.database.windows.net
+          - name: SQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: sql-secret
+                key: sql-user
+          - name: SQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sql-secret
+                key: sql-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trips
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app: trips
+  ports:
+  - port: 80
+    targetPort: 80
