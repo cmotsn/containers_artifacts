@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tripviewer
+  labels:
+    deploy: tripviewer
 spec:
   selector:
     matchLabels:
@@ -16,6 +18,13 @@ spec:
         image: registryvww2566.azurecr.io/tripinsights/tripviewer:1.0
         ports:
         - containerPort: 80
+        env:
+          - name: USERPROFILE_API_ENDPOINT
+            value: http://userprofile
+          - name: TRIPS_API_ENDPOINT
+            value: http://trips
+          - name: BING_MAPS_KEY
+            value: ''
 
 ---
 apiVersion: v1
@@ -23,10 +32,12 @@ kind: Service
 metadata:
   name: tripviewer
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: tripviewer
   ports:
   - port: 80
+    name: http
+    protocol: TCP
     targetPort: 80
 
