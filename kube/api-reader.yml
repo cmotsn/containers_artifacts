@@ -1,9 +1,13 @@
+kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
 metadata:
+  name: api-dev-rolebinding
   namespace: web
-  name: api-reader
-rules:
-- apiGroups: ["","*"] # "" indicates the core API group
-  resources: ["*"]
-  verbs: ["get", "watch", "list"]
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: User
+  namespace: web
+  name: apidev@msftopenhack6648ops.onmicrosoft.com
