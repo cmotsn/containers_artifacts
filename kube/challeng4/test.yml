@@ -1,0 +1,11 @@
+[?1000h[?1049h[22;0;0t[>4;2m[?1h=[?2004h[?1004h[1;12r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[38;5;231m[48;5;236m[H[2J[?25l[12;1H"/tmp/kubectl-edit-3946941907.yaml" 16L, 482B[1;1H# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  sql-password: UGFzc3dvcmQxMjMh
+  sql-user: c3FsYWRtaW52V3cyNTY1
+kind: Secret
+metadata:
+  creationTimestamp: "2023-02-01T09:18:27Z"[12;155H1,1[11CTop[1;1H[?25h[?4m[12;1H[?1000l[?2004l[>4;m[23;2t[23;1t[12;1H[K[12;1H[?1004l[?2004l[?1l>[>4;m[?1049l[23;0;0t
