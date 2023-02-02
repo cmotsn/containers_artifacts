@@ -11,20 +11,20 @@ spec:
     metadata:
       labels:
         app: trips
+        aadpodidbinding: identity-trips
     spec:
       containers:
       - name: trips
         image: registryvww2566.azurecr.io/tripinsights/trips:1.0
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: secret01
-          mountPath: "/secrets"
-          readOnly: true
         env:
           - name: SQL_SERVER
             value: sqlservervww2566.database.windows.net
-          #- name: SQL_USER
+          - name: CREDENTIAL_METHOD
+            value: managed_identity
+          - name: IDENTITY_CLIENT_ID
+            value: 13c55596-57d3-4adc-b758-3ebaf974e8b0
           #  valueFrom:
           #    secretKeyRef:
           #      name: sql-secret
@@ -34,14 +34,6 @@ spec:
           #    secretKeyRef:
           #      name: sql-secret
           #      key: sql-password
-
-      volumes:
-      - name: secret01
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: "team06"
 
 ---
 apiVersion: v1
